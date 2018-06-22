@@ -7,13 +7,30 @@ output:
 
 
 ## Loading and preprocessing the data
-
-
+```{r include=FALSE}
+library(knitr)
+library(lubridate)
+library(dplyr)
+```
+The data is loaded
+The date variable is transformed into char type for selection.
+Also, remove not available data from the set.
+```{r}
+data<-read.csv("activity.csv")
+data$date<-as.character(data$date)
+data[is.na(data)]<-0
+```
 
 ## What is mean total number of steps taken per day?
-
-
-
+The total number taken per day is as following graph
+```{r}
+daily<-group_by(data,date)%>%
+  summarize(totalsteps=sum(steps))
+hist(daily$totalsteps,xlab="Total Steps per Day")
+MeanSteps<-mean(daily$totalsteps)
+MedianSteps<-median(daily$totalsteps)
+```
+The mean value of total number of steps taken per day is `r MeanSteps`, the The median value of total number of steps taken per day is `r MedianSteps`
 ## What is the average daily activity pattern?
 
 
